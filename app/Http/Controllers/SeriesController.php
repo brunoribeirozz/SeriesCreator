@@ -12,11 +12,14 @@ use Illuminate\Support\Facades\Mail;
 
 class SeriesController extends Controller
 {
+    # por meio do middleware, ele valida se o usuaria ta logado, se sim ele tem acesso a editar, criar, deletar
+    # se não tiver, apenas a pagina de index é exibida
     public function __construct(private SeriesRepository $repository)
     {
         $this->middleware('auth')->except('index');
     }
 
+    # Aqui o index gerencia todas as series e mostra as mensagens de sucesso
     public function index(Request $request)
     {
         $series = Series::all();
@@ -26,11 +29,14 @@ class SeriesController extends Controller
             ->with('mensagemSucesso', $mensagemSucesso);
     }
 
+    # aqui faz as requisições de editar e criar as series
     public function create()
     {
         return view('series.create');
     }
 
+
+    # salva os dados novos ou editados
     public function store(SeriesFormRequest $request)
     {
         $serie = $this->repository->add($request);
@@ -53,6 +59,7 @@ class SeriesController extends Controller
             ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso");
     }
 
+    # função de deletar, busca no banco e faz o delete
     public function destroy(Series $series)
     {
         $series->delete();
