@@ -7,6 +7,7 @@ use App\Models\Episode;
 use App\Models\Season;
 use App\Models\Series;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class EloquentSeriesRepository implements SeriesRepository
 {
@@ -41,4 +42,17 @@ class EloquentSeriesRepository implements SeriesRepository
             return $serie;
         });
     }
+    public function remove(Series $series): void
+    {
+        DB::transaction(function () use ($series) {
+
+            $series->delete();
+
+            // 2. Deleta o arquivo físico se ele existir e não for a imagem padrão
+            if ($series->cover && $series->cover !== 'series_cover/default.jpg') {
+                Storage::disk('public')->delete($series->cover);
+            }
+        });
+    }
+
 }

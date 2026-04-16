@@ -14,6 +14,7 @@
             @endforeach
         </ul>
 
-        <button class="btn btn-primary mt-2 mb-2">Salvar</button>
+        <button class="btn btn-dark mt-2 mb-2">Salvar</button>
+        <a class="btn btn-outline-secondary mt-2 mb-2" href="{{ route('series.index') }}">Voltar</a>
     </form>
 </x-layout>

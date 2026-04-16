@@ -39,8 +39,9 @@ class SeriesController extends Controller
     # salva os dados novos ou editados
     public function store(SeriesFormRequest $request)
     {
-        $coverPath = $request->hasFile('cover')
-            ? $request->file('cover')->store('series_cover', 'public') : null;
+        $coverPath = $request->hasFile('cover') ? $request->file('cover')
+                ->store('series_cover', 'public') : null;
+
         $serie = $this->repository->add($request, $coverPath);
         $seriesCreatedEvent = new \App\Events\SeriesCreated(
             $serie->nome,
@@ -59,7 +60,7 @@ class SeriesController extends Controller
     # função de deletar, busca no banco e faz o delete
     public function destroy(Series $series)
     {
-        $series->delete();
+        $this->repository->remove($series);
 
         return to_route('series.index')
             ->with('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso");

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" id="main-html" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -17,12 +17,13 @@
         @auth
         <form action="{{ route('logout') }}" method="post">
             @csrf
+
             <button class="btn btn-outline-light">Logout</button>
         </form>
         @endauth
 
         @guest
-        <a href="{{ route('login') }}">Login</a>
+        <a class="btn btn-outline-light" href="{{ route('login') }}">Login</a>
         @endguest
     </div>
 </nav>
