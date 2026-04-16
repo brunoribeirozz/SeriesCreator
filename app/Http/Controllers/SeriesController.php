@@ -39,20 +39,15 @@ class SeriesController extends Controller
     # salva os dados novos ou editados
     public function store(SeriesFormRequest $request)
     {
+
         $serie = $this->repository->add($request);
-
-        $userList = User::all();
-        foreach ($userList as $user) {
-
-            $email = new SeriesCreated(
-                $serie->nome,
-                $serie->id,
-                $request->seasonsQty,
-                $request->episodesPerSeason,
-            );
-
-            Mail::to($user)->send($email);
-        }
+        $seriesCreatedEvent = new \App\Events\SeriesCreated(
+            $serie->nome,
+            $serie->id,
+            $request->seasonsQty,
+            $request->episodesPerSeason,
+        );
+        event($seriesCreatedEvent);
 
 
         return to_route('series.index')
