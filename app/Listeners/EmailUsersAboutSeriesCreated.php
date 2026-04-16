@@ -37,6 +37,7 @@ class EmailUsersAboutSeriesCreated implements ShouldQueue
                 (int) $event->seriesId,
                 (int) $event->seriesSeasonQty,
                 (int) $event->seriesEpisodesPerSeason,
+                (string) $event->seriesCover,
             );
 
             Mail::to($user)->send($email);

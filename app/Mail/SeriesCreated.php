@@ -22,6 +22,7 @@ class SeriesCreated extends Mailable
         public int $idSerie,
         public int $qtdTemporadas,
         public int $episodiosPorTemporada,
+        public string $coverPath,
     )
     {
         $this->subject = "Série $this->nomeSerie criada";

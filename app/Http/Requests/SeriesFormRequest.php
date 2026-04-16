@@ -25,6 +25,19 @@ class SeriesFormRequest extends FormRequest
     {
         return [
             'nome' => ['required', 'min:2'],
+            'seasonsQty' => ['required', 'numeric', 'min:1'],
+            'episodesPerSeason' => ['required'],
+            'cover' => ['image', 'mimes:jpeg,png,jpg,gif,svg'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'nome.required' => "Insira o nome da serie",
+            'nome.min' => "O nome da serie precisa ter ao menos 2 caracteres",
+            'seasonsQty.required' => "A quantidade de temporadas deve ser preenchida",
+            'episodesPerSeason.required' => "A quanidade de episódios deve ser informada"
         ];
     }
 }

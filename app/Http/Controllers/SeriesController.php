@@ -39,13 +39,15 @@ class SeriesController extends Controller
     # salva os dados novos ou editados
     public function store(SeriesFormRequest $request)
     {
-
-        $serie = $this->repository->add($request);
+        $coverPath = $request->hasFile('cover')
+            ? $request->file('cover')->store('series_cover', 'public') : null;
+        $serie = $this->repository->add($request, $coverPath);
         $seriesCreatedEvent = new \App\Events\SeriesCreated(
             $serie->nome,
             $serie->id,
             $request->seasonsQty,
             $request->episodesPerSeason,
+            $serie->cover,
         );
         event($seriesCreatedEvent);
 
@@ -71,9 +73,19 @@ class SeriesController extends Controller
     public function update(Series $series, SeriesFormRequest $request)
     {
         $series->fill($request->all());
+
+        if ($request->hasFile('cover')) {
+
+
+            $path = $request->file('cover')
+                ->store('series_cover', 'public');
+            $series->cover = $path;
+        }
+
         $series->save();
 
         return to_route('series.index')
-            ->with('mensagem.sucesso', "Série '{$series->nome}' atualizada com sucesso");
+            ->with('mensagem.sucesso', "Série '{$series->nome}' atualizada");
     }
+
 }
