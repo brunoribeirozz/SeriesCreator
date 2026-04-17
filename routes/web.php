@@ -1,6 +1,7 @@
 <?php
 
 use App\Mail\SeriesCreated;
+use App\Models\Series;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,3 +33,8 @@ Route::get('/email', function () {
 });
 
 require __DIR__ . '/auth.php';
+
+
+Route::get('/api/series', function () {
+    return Series::all();
+});

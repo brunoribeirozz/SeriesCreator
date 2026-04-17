@@ -27,7 +27,7 @@ class SeriesFormRequest extends FormRequest
             'nome' => ['required', 'min:2'],
             'seasonsQty' => ['required', 'numeric', 'min:1'],
             'episodesPerSeason' => ['required'],
-            'cover' => ['image', 'mimes:jpeg,png,jpg,gif,svg'],
+            'cover' => ['nullable', 'string', 'image', 'mimes:jpeg,png,jpg,gif,svg'],
         ];
     }
 

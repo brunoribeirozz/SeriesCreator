@@ -45,12 +45,12 @@ class EloquentSeriesRepository implements SeriesRepository
     public function remove(Series $series): void
     {
         DB::transaction(function () use ($series) {
-
+            $coverPath = $series->getRawOriginal('cover');
             $series->delete();
 
-            // 2. Deleta o arquivo físico se ele existir e não for a imagem padrão
-            if ($series->cover && $series->cover !== 'series_cover/default.jpg') {
-                Storage::disk('public')->delete($series->cover);
+            //  Deleta o arquivo físico se ele existir e não for a imagem padrão
+            if ($coverPath && $coverPath !== 'series_cover/sonic.gif') {
+                Storage::disk('public')->delete($coverPath);
             }
         });
     }
