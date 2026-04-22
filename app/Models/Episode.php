@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Episode extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
     protected $fillable = ['number'];
 
@@ -16,3 +18,4 @@ class Episode extends Model
         return $this->belongsTo(Season::class);
     }
 }
+
